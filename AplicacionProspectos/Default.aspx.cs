@@ -18,12 +18,16 @@ namespace AplicacionProspectos
         protected void Page_Load(object sender, EventArgs e)
         {
 
-
+            //ViewState["pantallaActual"] = (int)ViewState["pantallaActual"] == 0 || ViewState["pantallaActual"]  == null ? 0 : (int)ViewState["pantallaActual"];
             if (!Page.IsPostBack)
             {
                 inicializarValores();
             }
 
+            //Si es mayor que 0 entonces esta en la pantalla de evaludacion, se desactiva el boton, esto es por que el boton btnAgregarDocumentosModal se activa al ejecutarse el postback
+            /*if ((int)ViewState["pantallaActual"] > 0) { 
+                ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), "javascript: inhabilitarBoton(true);", true);
+            }*/
         }
         public void cargarImagen()
         {
@@ -41,6 +45,7 @@ namespace AplicacionProspectos
             this.lblEncabezadoModal.Text = "Captura del prospecto";
             //llenarDocumentos();
             ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), "javascript: mostrarModalProspecto();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), "javascript: inhabilitarBoton(false);", true);
         }
 
         protected void btnEliminar_click(object sender, EventArgs e)
@@ -100,31 +105,35 @@ namespace AplicacionProspectos
                     //Guardar solamente los registros nuevos
 
                     DataTable dt = (DataTable)ViewState["dtdocumentosGuardar"];
-
-                    foreach (DataRow row in dt.Rows)
+                    if(dt != null)
                     {
+                        foreach (DataRow row in dt.Rows)
+                        {
 
-                        ObjectId objectIdDocumento = db.subirDocumento(row["rutaArchivo"].ToString(), row["nombreArchivo"].ToString());
+                            ObjectId objectIdDocumento = db.subirDocumento(row["rutaArchivo"].ToString(), row["nombreArchivo"].ToString());
 
-                        //Guardar archivo
-                        Documentos documentos = new Documentos();
-                        documentos.descripcion = row["nombreDocumento"].ToString();
-                        documentos.files_id = objectIdDocumento;
-                        documentos.numeroCliente = int.Parse(this.txtnumeroCliente.Text);
-                        documentos.rutaArchivo = row["rutaArchivo"].ToString();
-                        documentos.nombreArchivo = row["nombreArchivo"].ToString();
-                        documentos.existe = existe;
-                        /*documentos.descripcion = row.Cells[0].Text;
-                        documentos.files_id = objectIdDocumento;
-                        documentos.numeroCliente = int.Parse (this.txtnumeroCliente.Text);
-                        documentos.rutaArchivo = row.Cells[2].Text;
-                        documentos.nombreArchivo = row.Cells[1].Text;
-                        documentos.existe = existe;*/
-                        documentos.guardar();
+                            //Guardar archivo
+                            Documentos documentos = new Documentos();
+                            documentos.descripcion = row["nombreDocumento"].ToString();
+                            documentos.files_id = objectIdDocumento;
+                            documentos.numeroCliente = int.Parse(this.txtnumeroCliente.Text);
+                            documentos.rutaArchivo = row["rutaArchivo"].ToString();
+                            documentos.nombreArchivo = row["nombreArchivo"].ToString();
+                            documentos.existe = existe;
+                            /*documentos.descripcion = row.Cells[0].Text;
+                            documentos.files_id = objectIdDocumento;
+                            documentos.numeroCliente = int.Parse (this.txtnumeroCliente.Text);
+                            documentos.rutaArchivo = row.Cells[2].Text;
+                            documentos.nombreArchivo = row.Cells[1].Text;
+                            documentos.existe = existe;*/
+                            documentos.guardar();
 
-                        //subirDocumento
+                            //subirDocumento
+
+                        }
 
                     }
+                   
 
                 
 
@@ -146,7 +155,7 @@ namespace AplicacionProspectos
 
         protected void btnEvaluar_click(object sender, EventArgs e)
         {
-
+            ViewState["pantallaActual"] = 1;
             this.lblEncabezadoModal.Text = "Evaluación del prospecto";
             activarComponentes(false);
 
@@ -156,6 +165,8 @@ namespace AplicacionProspectos
             this.btnEvaluar.Visible = false;
             this.btnGuardar.Visible = true;
             ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), "javascript: mostrarModalProspecto();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), "javascript: inhabilitarBoton(true);", true);
+            
         }
         protected void btnCancelar_click(object sender, EventArgs e)
         {
@@ -218,7 +229,7 @@ namespace AplicacionProspectos
                 //Desactivar el error
                 this.lblErrorDocumentos.Visible = false;
 
-                this.txtNombreDocumento.Text = "";
+                
 
                 #region Guardar solo los documentos seleccionados en la sesion
 
@@ -253,7 +264,7 @@ namespace AplicacionProspectos
             }
             //Volver a ejecutar la funcion para que vuelva a cargar el mismo modal 
             ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), "javascript: mostrarModalDocumentos();", true);
-
+            this.txtNombreDocumento.Text = "";
 
         }
         protected void btnCancelarDocumentos_click(object sender, EventArgs e)
@@ -358,6 +369,8 @@ namespace AplicacionProspectos
             this.btnEvaluar.Visible = false;
             this.btnGuardar.Visible = true;
 
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), "javascript: inhabilitarBoton('false');", true);
+
         }
 
         public void limpiarValoresFormulario()
@@ -461,6 +474,9 @@ namespace AplicacionProspectos
             ViewState["dtDocumentos"] = dtdocumentos;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), "javascript: mostrarModalProspecto();", true);
+
+            //Ejecutar el metodo de javascript para inhabilitar el boton de tipo <button> 
+            ScriptManager.RegisterStartupScript(this, this.GetType(), Guid.NewGuid().ToString(), "javascript: inhabilitarBoton(true);", true);
         }
 
         protected void gvProspectos_RowCommand(object sender, GridViewCommandEventArgs e)

@@ -113,6 +113,8 @@ namespace AplicacionProspectos.Entidades
 
                 if (existe)
                 {
+                    //eLIMINAR EL REGISTRO DEL ARCHIVO BINARIO
+                    collection.DeleteMany("{ numeroCliente : " + this.m_numeroClienteProspecto + " }");
                     collection.DeleteMany("{ numeroCliente : " + this.m_numeroClienteProspecto + " }");
                 }
                 collection.InsertOne(document);

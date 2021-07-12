@@ -240,7 +240,6 @@
     </Compile>
     <Compile Include="Entidades\Documentos.cs" />
     <Compile Include="Entidades\Prospecto.cs" />
-    <Compile Include="Entidades\Tareas.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

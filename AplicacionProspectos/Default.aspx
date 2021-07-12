@@ -33,6 +33,9 @@
                 $('#modalMensajeConfirmacion').modal('show');
                return false;
          }
+         function inhabilitarBoton(valor) {
+             document.getElementById('btnAgregarDocumentosModal').disabled=valor;
+         }
 
          function mensaje(msg, icono, modal) {
              if (modal !== '')
@@ -218,13 +221,13 @@
                       <asp:GridView ID="gvDocumentosAltaProspecto" CssClass="table table-striped table-bodered table-hover" runat="server" AutoGenerateColumns="False" Height="97px"
                              >
                         <Columns>
-                            <asp:BoundField HeaderText="Documento" DataField="nombreDocumento" HeaderStyle-CssClass="hidden thead-dark">
+                            <asp:BoundField HeaderText="Documento" DataField="nombreDocumento" >
                                  <HeaderStyle HorizontalAlign="Center"  Width="15%" ></HeaderStyle>
 						         <ItemStyle HorizontalAlign="Left" Width="15%"></ItemStyle>
                             </asp:BoundField >
                             <asp:BoundField HeaderText="Nombre del archivo" DataField="nombreArchivo"  >
-                                <HeaderStyle HorizontalAlign="Center"  Width="25%" ></HeaderStyle>
-			                    <ItemStyle HorizontalAlign="Left" Width="25%"></ItemStyle>
+                                <HeaderStyle HorizontalAlign="Center"  Width="15%" ></HeaderStyle>
+			                    <ItemStyle HorizontalAlign="Left" Width="15%"></ItemStyle>
                             </asp:BoundField >
                             <asp:BoundField HeaderText="Ruta" DataField="rutaArchivo"  >
                                 <HeaderStyle HorizontalAlign="Center"  Width="70%" ></HeaderStyle>
@@ -277,13 +280,13 @@
                         <asp:GridView ID="gridAgregarDocumentos" CssClass="table table-striped table-bodered table-hover" runat="server" AutoGenerateColumns="False" Height="97px"
                              >
                         <Columns>
-                            <asp:BoundField HeaderText="Documento" DataField="nombreDocumento" HeaderStyle-CssClass="hidden thead-dark">
+                            <asp:BoundField HeaderText="Documento" DataField="nombreDocumento" >
                                  <HeaderStyle HorizontalAlign="Center"  Width="15%" ></HeaderStyle>
 						         <ItemStyle HorizontalAlign="Left" Width="15%"></ItemStyle>
                             </asp:BoundField >
                             <asp:BoundField HeaderText="Nombre del archivo" DataField="nombreArchivo"  >
-                                <HeaderStyle HorizontalAlign="Center"  Width="25%" ></HeaderStyle>
-			                    <ItemStyle HorizontalAlign="Left" Width="25%"></ItemStyle>
+                                <HeaderStyle HorizontalAlign="Center"  Width="15%" ></HeaderStyle>
+			                    <ItemStyle HorizontalAlign="Left" Width="15%"></ItemStyle>
                             </asp:BoundField >
                             <asp:BoundField HeaderText="Ruta" DataField="rutaArchivo"  >
                                 <HeaderStyle HorizontalAlign="Center"  Width="70%" ></HeaderStyle>
